@@ -4,7 +4,7 @@
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 
-enum States { EMPTY, X, O };
+enum States { EMPTY, X, O, TIE };
 
 const int magicSquare[3][3] = {
     {8, 1, 6},
@@ -17,6 +17,25 @@ private:
     States s[3][3];
     //int square[3][3];
     int moveCount;
+
+    void drawCircle(SDL_Renderer *renderer) {
+
+    }
+
+    void drawX(SDL_Renderer *renderer, int i, int j) {
+        int x1 = i * SCREEN_WIDTH / 3;
+        int y1 = j * SCREEN_HEIGHT / 3;
+
+        int x2 = x1 + SCREEN_WIDTH / 3;
+        int y2 = y1 + SCREEN_HEIGHT / 3;
+
+        std::cout << x1 << " " << y1 << std::endl;
+        std::cout << x2 << " " << y2 << std::endl;
+
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
+        SDL_RenderDrawLine(renderer, x2, y1, x1, y2);
+    }
 
 public:
     Board() {
@@ -42,6 +61,20 @@ public:
         for (float y = SCREEN_HEIGHT / 3.0; y < SCREEN_HEIGHT; y += SCREEN_HEIGHT / 3.0) {
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
             SDL_RenderDrawLine(renderer, 0, int(y), SCREEN_WIDTH, int(y));
+        }
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                switch (s[i][j]) {
+                    case X:
+                        this->drawX(renderer, i, j);
+                        break;
+                    case O:
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 
@@ -72,6 +105,22 @@ public:
             std::cout << std::endl;
         }
     }
+
+    /*
+    // returns: EMPTY if still going, X if x wins, O if o wins, and TIE if it's a tied game
+    States checkWin() {
+        // check rows
+        for (int i = 0; i < 3; i++) {
+            int sum = 0;
+            for (int j = 0; j < 3; j++) {
+                if (s[i][j] != EMPTY) {
+                    sum += magicSquare[i][j];
+                }
+            }
+        }
+
+    }
+    */
 };
 
 SDL_Window *window = nullptr;
