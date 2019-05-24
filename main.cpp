@@ -4,7 +4,7 @@
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 
-enum State { EMPTY, X, O };
+enum States { EMPTY, X, O };
 
 const int magicSquare[3][3] = {
     {8, 1, 6},
@@ -14,8 +14,8 @@ const int magicSquare[3][3] = {
 
 class Board {
 private:
-    State s[3][3];
-    int square[3][3];
+    States s[3][3];
+    //int square[3][3];
     int moveCount;
 
 public:
@@ -23,7 +23,7 @@ public:
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 s[i][j] = EMPTY;
-                square[i][j] = magicSquare[i][j];
+                //square[i][j] = magicSquare[i][j];
             }
         }
 
@@ -36,7 +36,7 @@ public:
         for (float x = SCREEN_WIDTH / 3.0; x < SCREEN_WIDTH; x += SCREEN_WIDTH / 3.0) {
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
             SDL_RenderDrawLine(renderer, int(x), 0, int(x), SCREEN_HEIGHT);
-            std::cout << x << std::endl;
+            // std::cout << x << std::endl;
         }
 
         for (float y = SCREEN_HEIGHT / 3.0; y < SCREEN_HEIGHT; y += SCREEN_HEIGHT / 3.0) {
@@ -45,11 +45,31 @@ public:
         }
     }
 
-    void insert() {
+    // returns true if successful, false if there is a piece already placed in the index
+    bool insert(int i, int j) {
+        if (s[i][j] != EMPTY) {
+            return false;
+        }
+
+        // x goes first!
         if (moveCount % 2 == 0) {
-
+            s[i][j] = X;
         } else {
+            s[i][j] = O;
+        }
 
+        moveCount++;
+
+        return true;
+    }
+
+    void print() {
+        for (int j = 0; j < 3; j++) {
+            for (int i = 0; i < 3; i++) {
+                std::cout << s[i][j] << " ";
+            }
+
+            std::cout << std::endl;
         }
     }
 };
@@ -98,6 +118,42 @@ int main() {
             if (e.type == SDL_QUIT) {
                 quit = true;
                 break;
+            }
+
+            if (e.type == SDL_MOUSEBUTTONDOWN) {
+                int xPos;
+                int yPos;
+                SDL_GetMouseState(&xPos, &yPos);
+                // std::cout << xPos << " " << yPos << std::endl;
+
+                int i;
+                int j;
+
+                if (xPos < SCREEN_WIDTH / 3) {
+                    i = 0;
+                } else if (xPos < 2 * SCREEN_WIDTH / 3) {
+                    i = 1;
+                } else {
+                    i = 2;
+                }
+
+                if (yPos < SCREEN_HEIGHT / 3) {
+                    j = 0;
+                } else if (yPos < 2 * SCREEN_HEIGHT / 3) {
+                    j = 1;
+                } else {
+                    j = 2;
+                }
+
+
+                std::cout << xPos << " " << yPos << std::endl;
+                std::cout << i << " " << j << std::endl;
+
+                if (!b.insert(i, j)) {
+                    std::cout << "Already taken!" << std::endl;
+                }
+
+                b.print();
             }
         }
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
