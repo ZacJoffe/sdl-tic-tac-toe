@@ -22,11 +22,22 @@ public:
         this->y = y;
     }
 
+    Point() {
+        this->x = 0;
+        this->y = 0;
+    }
+
     ~Point() {}
+
+    void print() {
+        std::cout << "(" << this->x << ", " << this->y << ")" << std::endl;
+    }
 
     float getX() const { return this->x; }
     float getY() const { return this->y; }
 };
+
+Point getCenter(int i, int j) { return Point((i * SCREEN_WIDTH / 3.0) + (SCREEN_WIDTH / 6.0), (j * SCREEN_HEIGHT / 3.0) + (SCREEN_HEIGHT / 6.0)); }
 
 class Board {
 private:
@@ -35,7 +46,8 @@ private:
     int moveCount;
 
     void drawCircle(SDL_Renderer *renderer, int i, int j) {
-        // float center = 
+        Point p = getCenter(i, j);
+        p.print();
     }
 
     void drawX(SDL_Renderer *renderer, int i, int j) {
@@ -89,6 +101,7 @@ public:
                         this->drawX(renderer, i, j);
                         break;
                     case O:
+                        this->drawCircle(renderer, i, j);
                         break;
                     default:
                         break;
@@ -191,6 +204,7 @@ int main() {
             if (e.type == SDL_MOUSEBUTTONDOWN) {
                 int xPos;
                 int yPos;
+
                 SDL_GetMouseState(&xPos, &yPos);
                 // std::cout << xPos << " " << yPos << std::endl;
 
