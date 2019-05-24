@@ -59,7 +59,7 @@ private:
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         for (int i = 0; i < 360; i++) {
             Point p(center.getX() + radius * cos(degToRad(i)), center.getY() + radius * sin(degToRad(i)));
-            SDL_RenderDrawPoint(renderer, int(p.getX()), int(p.getY()));
+            SDL_RenderDrawPoint(renderer, static_cast<int>(p.getX()), static_cast<int>(p.getY()));
         }
     }
 
@@ -98,13 +98,13 @@ public:
     void draw(SDL_Renderer *renderer) {
         for (float x = SCREEN_WIDTH / 3.0; x < SCREEN_WIDTH; x += SCREEN_WIDTH / 3.0) {
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-            SDL_RenderDrawLine(renderer, int(x), 0, int(x), SCREEN_HEIGHT);
+            SDL_RenderDrawLine(renderer, static_cast<int>(x), 0, static_cast<int>(x), SCREEN_HEIGHT);
             // std::cout << x << std::endl;
         }
 
         for (float y = SCREEN_HEIGHT / 3.0; y < SCREEN_HEIGHT; y += SCREEN_HEIGHT / 3.0) {
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-            SDL_RenderDrawLine(renderer, 0, int(y), SCREEN_WIDTH, int(y));
+            SDL_RenderDrawLine(renderer, 0, static_cast<int>(y), SCREEN_WIDTH, static_cast<int>(y));
         }
 
         for (int i = 0; i < 3; i++) {
