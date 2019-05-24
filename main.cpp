@@ -12,29 +12,48 @@ const int magicSquare[3][3] = {
     {4, 9, 2}
 };
 
+class Point {
+private:
+    float x;
+    float y;
+public:
+    Point(float x, float y) {
+        this->x = x;
+        this->y = y;
+    }
+
+    ~Point() {}
+
+    float getX() const { return this->x; }
+    float getY() const { return this->y; }
+};
+
 class Board {
 private:
     States s[3][3];
     //int square[3][3];
     int moveCount;
 
-    void drawCircle(SDL_Renderer *renderer) {
-
+    void drawCircle(SDL_Renderer *renderer, int i, int j) {
+        // float center = 
     }
 
     void drawX(SDL_Renderer *renderer, int i, int j) {
-        int x1 = i * SCREEN_WIDTH / 3;
-        int y1 = j * SCREEN_HEIGHT / 3;
 
-        int x2 = x1 + SCREEN_WIDTH / 3;
-        int y2 = y1 + SCREEN_HEIGHT / 3;
+        Point p1(i * SCREEN_WIDTH / 3, j * SCREEN_HEIGHT / 3);
+        // int x1 = i * SCREEN_WIDTH / 3;
+        // int y1 = j * SCREEN_HEIGHT / 3;
 
-        std::cout << x1 << " " << y1 << std::endl;
-        std::cout << x2 << " " << y2 << std::endl;
+        Point p2(p1.getX() + SCREEN_WIDTH / 3, p1.getY() + SCREEN_HEIGHT / 3);
+        // int x2 = x1 + SCREEN_WIDTH / 3;
+        // int y2 = y1 + SCREEN_HEIGHT / 3;
+
+        // std::cout << x1 << " " << y1 << std::endl;
+        // std::cout << x2 << " " << y2 << std::endl;
 
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-        SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
-        SDL_RenderDrawLine(renderer, x2, y1, x1, y2);
+        SDL_RenderDrawLine(renderer, p1.getX(), p1.getY(), p2.getX(), p2.getY());
+        SDL_RenderDrawLine(renderer, p2.getX(), p1.getY(), p1.getX(), p2.getY());
     }
 
 public:
