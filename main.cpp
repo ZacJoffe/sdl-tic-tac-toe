@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <iostream>
+#include <cmath>
 
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
@@ -45,9 +46,21 @@ private:
     //int square[3][3];
     int moveCount;
 
+    float degToRad(float degrees) {
+        return degrees * M_PI / 180.0;
+    }
+
     void drawCircle(SDL_Renderer *renderer, int i, int j) {
-        Point p = getCenter(i, j);
-        p.print();
+        Point center = getCenter(i, j);
+        center.print();
+
+        int radius = SCREEN_HEIGHT / 6;
+
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        for (int i = 0; i < 360; i++) {
+            Point p(center.getX() + radius * cos(degToRad(i)), center.getY() + radius * sin(degToRad(i)));
+            SDL_RenderDrawPoint(renderer, int(p.getX()), int(p.getY()));
+        }
     }
 
     void drawX(SDL_Renderer *renderer, int i, int j) {
