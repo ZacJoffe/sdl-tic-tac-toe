@@ -5,6 +5,8 @@
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 
+#define MAGIC_TOTAL 15
+
 enum States { EMPTY, X, O, TIE };
 
 const int magicSquare[3][3] = {
@@ -52,7 +54,7 @@ private:
 
     void drawCircle(SDL_Renderer *renderer, int i, int j) {
         Point center = getCenter(i, j);
-        center.print();
+        // center.print();
 
         int radius = SCREEN_HEIGHT / 6;
 
@@ -151,21 +153,116 @@ public:
         }
     }
 
-    /*
     // returns: EMPTY if still going, X if x wins, O if o wins, and TIE if it's a tied game
     States checkWin() {
+        if (moveCount == 9) {
+            return TIE;
+        }
+
+        int sumX;
+        int sumO;
+
         // check rows
         for (int i = 0; i < 3; i++) {
-            int sum = 0;
+            sumX = 0;
+            sumO = 0;
             for (int j = 0; j < 3; j++) {
-                if (s[i][j] != EMPTY) {
-                    sum += magicSquare[i][j];
+                if (s[i][j] == X) {
+                    sumX += magicSquare[i][j];
                 }
+
+                if (s[i][j] == O) {
+                    sumO += magicSquare[i][j];
+                }
+            }
+
+            if (sumX == MAGIC_TOTAL) {
+                return X;
+            }
+
+            if (sumO == MAGIC_TOTAL) {
+                return O;
+            }
+        }
+        
+        // check cols
+        for (int j = 0; j < 3; j++) {
+            sumX = 0;
+            sumO = 0;
+            for (int i = 0; i < 3; i++) {
+                if (s[i][j] == X) {
+                    sumX += magicSquare[i][j];
+                }
+
+                if (s[i][j] == O) {
+                    sumO += magicSquare[i][j];
+                }
+            }
+
+            if (sumX == MAGIC_TOTAL) {
+                return X;
+            }
+
+            if (sumO == MAGIC_TOTAL) {
+                return O;
+            }   
+        }
+
+        // check diagonal
+        sumX = 0;
+        sumO = 0;
+        for (int i = 0; i < 3; i++) {
+            if (s[i][i] == X) {
+                sumX += magicSquare[i][i];
+            }
+
+            if (s[i][i] == O) {
+                sumO += magicSquare[i][i];
+            }
+
+            if (sumX == MAGIC_TOTAL) {
+                return X;
+            }
+
+            if (sumO == MAGIC_TOTAL) {
+                return O;
             }
         }
 
+        // reverse diagonal
+        sumX = 0;
+        sumO = 0;
+        for (int i = 2; i >= 0; i--) {
+            if (s[i][i] == X) {
+                sumX += magicSquare[i][i];
+            }
+
+            if (s[i][i] == O) {
+                sumO += magicSquare[i][i];
+            }
+
+            if (sumX == MAGIC_TOTAL) {
+                return X;
+            }
+
+            if (sumO == MAGIC_TOTAL) {
+                return O;
+            }
+        }
+
+        return EMPTY;
     }
-    */
+
+    void reset() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                s[i][j] = EMPTY;
+                //square[i][j] = magicSquare[i][j];
+            }
+        }
+
+        moveCount = 0;
+    }
 };
 
 SDL_Window *window = nullptr;
@@ -248,14 +345,33 @@ int main() {
                     std::cout << "Already taken!" << std::endl;
                 }
 
-                b.print();
+                // b.print();
             }
         }
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-
         SDL_RenderClear(renderer);
         b.draw(renderer);
         SDL_RenderPresent(renderer);
+
+        switch (b.checkWin()) {
+            case X:
+                std::cout << "X Wins!" << std::endl;
+                b.reset();
+                SDL_Delay(2000);
+                break;
+            case O:
+                std::cout << "O Wins!" << std::endl;
+                b.reset();
+                SDL_Delay(2000);
+                break;
+            case TIE:
+                std::cout << "Tie!!!" << std::endl;
+                b.reset();
+                SDL_Delay(2000);
+                break;
+            default:
+                break;
+        }
     }
 
     return 0;
