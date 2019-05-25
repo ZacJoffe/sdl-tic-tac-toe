@@ -40,12 +40,12 @@ void Board::drawX(SDL_Renderer *renderer, int i, int j) {
 Board::Board() {
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
-            s[i][j] = EMPTY;
+            this->s[i][j] = EMPTY;
             //square[i][j] = magicSquare[i][j];
         }
     }
 
-    moveCount = 0;
+    this->moveCount = 0;
 }
 
 Board::~Board() {}
@@ -64,7 +64,7 @@ void Board::draw(SDL_Renderer *renderer) {
 
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
-            switch (s[i][j]) {
+            switch (this->s[i][j]) {
                 case X:
                     this->drawX(renderer, i, j);
                     break;
@@ -80,18 +80,18 @@ void Board::draw(SDL_Renderer *renderer) {
 
 // returns true if successful, false if there is a piece already placed in the index
 bool Board::insert(int i, int j) {
-    if (s[i][j] != EMPTY) {
+    if (this->s[i][j] != EMPTY) {
         return false;
     }
 
     // x goes first!
-    if (moveCount % 2 == 0) {
-        s[i][j] = X;
+    if (this->moveCount % 2 == 0) {
+        this->s[i][j] = X;
     } else {
-        s[i][j] = O;
+        this->s[i][j] = O;
     }
 
-    moveCount++;
+    this->moveCount++;
 
     return true;
 }
@@ -99,7 +99,7 @@ bool Board::insert(int i, int j) {
 void Board::print() {
     for (int j = 0; j < 3; j++) {
         for (int i = 0; i < 3; i++) {
-            std::cout << s[i][j] << " ";
+            std::cout << this->s[i][j] << " ";
         }
 
         std::cout << std::endl;
@@ -108,7 +108,7 @@ void Board::print() {
 
 // returns: EMPTY if still going, X if x wins, O if o wins, and TIE if it's a tied game
 States Board::checkWin() {
-    if (moveCount == 9) {
+    if (this->moveCount == 9) {
         return TIE;
     }
 
@@ -120,11 +120,11 @@ States Board::checkWin() {
         sumX = 0;
         sumO = 0;
         for (int j = 0; j < 3; j++) {
-            if (s[i][j] == X) {
+            if (this->s[i][j] == X) {
                 sumX += magicSquare[i][j];
             }
 
-            if (s[i][j] == O) {
+            if (this->s[i][j] == O) {
                 sumO += magicSquare[i][j];
             }
         }
@@ -143,11 +143,11 @@ States Board::checkWin() {
         sumX = 0;
         sumO = 0;
         for (int i = 0; i < 3; i++) {
-            if (s[i][j] == X) {
+            if (this->s[i][j] == X) {
                 sumX += magicSquare[i][j];
             }
 
-            if (s[i][j] == O) {
+            if (this->s[i][j] == O) {
                 sumO += magicSquare[i][j];
             }
         }
@@ -165,11 +165,11 @@ States Board::checkWin() {
     sumX = 0;
     sumO = 0;
     for (int i = 0; i < 3; i++) {
-        if (s[i][i] == X) {
+        if (this->s[i][i] == X) {
             sumX += magicSquare[i][i];
         }
 
-        if (s[i][i] == O) {
+        if (this->s[i][i] == O) {
             sumO += magicSquare[i][i];
         }
 
@@ -186,11 +186,11 @@ States Board::checkWin() {
     sumX = 0;
     sumO = 0;
     for (int i = 2; i >= 0; i--) {
-        if (s[i][i] == X) {
+        if (this->s[i][i] == X) {
             sumX += magicSquare[i][i];
         }
 
-        if (s[i][i] == O) {
+        if (this->s[i][i] == O) {
             sumO += magicSquare[i][i];
         }
 
@@ -209,10 +209,10 @@ States Board::checkWin() {
 void Board::reset() {
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
-            s[i][j] = EMPTY;
+            this->s[i][j] = EMPTY;
             //square[i][j] = magicSquare[i][j];
         }
     }
 
-    moveCount = 0;
+    this->moveCount = 0;
 }
