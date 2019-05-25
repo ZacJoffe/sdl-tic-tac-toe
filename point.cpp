@@ -1,9 +1,6 @@
 #include "point.hpp"
 #include <iostream>
 
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 720
-
 Point::Point(float x, float y) {
     this->x = x;
     this->y = y;

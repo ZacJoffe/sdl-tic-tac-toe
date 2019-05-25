@@ -2,11 +2,7 @@
 #include <iostream>
 #include <cmath>
 
-#include "point.hpp"
 #include "board.hpp"
-
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 720
 
 SDL_Window *window = nullptr;
 SDL_Renderer *renderer = nullptr;
