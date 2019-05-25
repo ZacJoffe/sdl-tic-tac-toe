@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+// #include <SDL2/SDL_ttf.h>
 #include <iostream>
 #include <cmath>
 
@@ -92,7 +93,7 @@ int main() {
         b.draw(renderer);
         SDL_RenderPresent(renderer);
 
-        switch (b.checkWin()) {
+        switch (b.checkWin(renderer)) {
             case X:
                 std::cout << "X Wins!" << std::endl;
                 b.reset();

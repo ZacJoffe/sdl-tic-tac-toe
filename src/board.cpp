@@ -37,15 +37,38 @@ void Board::drawX(SDL_Renderer *renderer, int i, int j) {
     SDL_RenderDrawLine(renderer, p2.getX(), p1.getY(), p1.getX(), p2.getY());
 }
 
+void Board::drawLine(SDL_Renderer *renderer) {
+    switch (this->w.getWin()) {
+        case ROW:
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+            SDL_RenderDrawLine(renderer, this->w.getPoint().getX() + SCREEN_WIDTH / 6.0, 0, this->w.getPoint().getX() + SCREEN_WIDTH / 6.0, SCREEN_HEIGHT);
+            break;
+        case COL:
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+            SDL_RenderDrawLine(renderer, 0, this->w.getPoint().getY() + SCREEN_HEIGHT / 6.0, SCREEN_WIDTH, this->w.getPoint().getY() + SCREEN_HEIGHT / 6.0); 
+            break;
+        case DIAG:
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+            SDL_RenderDrawLine(renderer, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+            break;
+        case REVERSEDIAG:
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+            SDL_RenderDrawLine(renderer, SCREEN_WIDTH, 0, 0, SCREEN_HEIGHT);
+            break;
+        default:
+            break;
+    }
+}
+
 Board::Board() {
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             this->s[i][j] = EMPTY;
-            //square[i][j] = magicSquare[i][j];
         }
     }
 
     this->moveCount = 0;
+    this->w = WinState();
 }
 
 Board::~Board() {}
@@ -76,6 +99,8 @@ void Board::draw(SDL_Renderer *renderer) {
             }
         }
     }
+
+    this->drawLine(renderer);
 }
 
 // returns true if successful, false if there is a piece already placed in the index
@@ -107,7 +132,7 @@ void Board::print() {
 }
 
 // returns: EMPTY if still going, X if x wins, O if o wins, and TIE if it's a tied game
-States Board::checkWin() {
+States Board::checkWin(SDL_Renderer *renderer) {
     if (this->moveCount == 9) {
         return TIE;
     }
@@ -130,10 +155,14 @@ States Board::checkWin() {
         }
 
         if (sumX == MAGIC_TOTAL) {
+            this->w = WinState(ROW, Point(i, 0));
+            // this->drawLine(renderer, ROW, i, 0);
             return X;
         }
 
         if (sumO == MAGIC_TOTAL) {
+            this->w = WinState(ROW, Point(i, 0));
+            // this->drawLine(renderer, ROW, i, 0);
             return O;
         }
     }
@@ -153,10 +182,14 @@ States Board::checkWin() {
         }
 
         if (sumX == MAGIC_TOTAL) {
+            this->w = WinState(COL, Point(0, j));
+            // this->drawLine(renderer, COL, 0, j);
             return X;
         }
 
         if (sumO == MAGIC_TOTAL) {
+            this->w = WinState(COL, Point(0, j));
+            // this->drawLine(renderer, COL, 0, j);
             return O;
         }   
     }
@@ -174,10 +207,14 @@ States Board::checkWin() {
         }
 
         if (sumX == MAGIC_TOTAL) {
+            this->w = WinState(DIAG, Point());
+            // this->drawLine(renderer, DIAG, 0, 0);
             return X;
         }
 
         if (sumO == MAGIC_TOTAL) {
+            this->w = WinState(DIAG, Point());
+            // this->drawLine(renderer, DIAG, 0, 0);
             return O;
         }
     }
@@ -195,10 +232,14 @@ States Board::checkWin() {
         }
 
         if (sumX == MAGIC_TOTAL) {
+            this->w = WinState(REVERSEDIAG, Point());
+            // this->drawLine(renderer, REVERSEDIAG, 0, 0);
             return X;
         }
 
         if (sumO == MAGIC_TOTAL) {
+            this->w = WinState(REVERSEDIAG, Point());
+            // this->drawLine(renderer, REVERSEDIAG, 0, 0);
             return O;
         }
     }
@@ -210,9 +251,9 @@ void Board::reset() {
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             this->s[i][j] = EMPTY;
-            //square[i][j] = magicSquare[i][j];
         }
     }
 
     this->moveCount = 0;
+    this->w = WinState();
 }
