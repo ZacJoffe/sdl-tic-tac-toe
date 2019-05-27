@@ -2,7 +2,7 @@
 
 #include "point.hpp"
 
-enum Win { ROW, COL, DIAG, REVERSEDIAG };
+enum Win { ROW, COL, DIAG, REVERSEDIAG, NONE };
 
 class WinState {
 private:
