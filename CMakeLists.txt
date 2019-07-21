@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(tetris)
+project(ttt)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
@@ -14,5 +14,5 @@ file(GLOB SOURCE_CPP "${CMAKE_SOURCE_DIR}/src/*.cpp")
 
 SET(SOURCES ${SOURCE_CPP} ${SOURCE_HPP})
 
-add_executable(tetris ${SOURCES})
-target_link_libraries(tetris ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY})
+add_executable(ttt ${SOURCES})
+target_link_libraries(ttt ${SDL2_LIBRARIES} ${SDL2TTF_LIBRARY})
