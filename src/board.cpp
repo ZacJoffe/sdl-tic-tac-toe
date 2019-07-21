@@ -20,7 +20,6 @@ void Board::drawCircle(SDL_Renderer *renderer, int i, int j) {
 }
 
 void Board::drawX(SDL_Renderer *renderer, int i, int j) {
-
     Point p1(i * SCREEN_WIDTH / 3, j * SCREEN_HEIGHT / 3);
     // int x1 = i * SCREEN_WIDTH / 3;
     // int y1 = j * SCREEN_HEIGHT / 3;
@@ -45,7 +44,7 @@ void Board::drawLine(SDL_Renderer *renderer) {
             break;
         case COL:
             SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-            SDL_RenderDrawLine(renderer, 0, this->w.getPoint().getY() + SCREEN_HEIGHT / 6.0, SCREEN_WIDTH, this->w.getPoint().getY() + SCREEN_HEIGHT / 6.0); 
+            SDL_RenderDrawLine(renderer, 0, this->w.getPoint().getY() + SCREEN_HEIGHT / 6.0, SCREEN_WIDTH, this->w.getPoint().getY() + SCREEN_HEIGHT / 6.0);
             break;
         case DIAG:
             SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
@@ -166,8 +165,8 @@ States Board::checkWin(SDL_Renderer *renderer) {
             return O;
         }
     }
-    
-    // check cols
+
+    //  check cols
     for (int j = 0; j < 3; j++) {
         sumX = 0;
         sumO = 0;
