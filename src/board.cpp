@@ -37,12 +37,16 @@ void Board::drawX(SDL_Renderer *renderer, int i, int j) {
 }
 
 void Board::drawLine(SDL_Renderer *renderer) {
+    if (this->w.getWin() != NONE) {
+        std::cout << this->w.getWin() << std::endl;
+    }
+
     switch (this->w.getWin()) {
-        case ROW:
+        case COL:
             SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
             SDL_RenderDrawLine(renderer, this->w.getPoint().getX() + SCREEN_WIDTH / 6.0, 0, this->w.getPoint().getX() + SCREEN_WIDTH / 6.0, SCREEN_HEIGHT);
             break;
-        case COL:
+        case ROW:
             SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
             SDL_RenderDrawLine(renderer, 0, this->w.getPoint().getY() + SCREEN_HEIGHT / 6.0, SCREEN_WIDTH, this->w.getPoint().getY() + SCREEN_HEIGHT / 6.0);
             break;
@@ -139,7 +143,7 @@ States Board::checkWin(SDL_Renderer *renderer) {
     int sumX;
     int sumO;
 
-    // check rows
+    // check cols
     for (int i = 0; i < 3; i++) {
         sumX = 0;
         sumO = 0;
@@ -154,19 +158,19 @@ States Board::checkWin(SDL_Renderer *renderer) {
         }
 
         if (sumX == MAGIC_TOTAL) {
-            this->w = WinState(ROW, Point(i, 0));
+            this->w = WinState(COL, Point(i, 0));
             // this->drawLine(renderer, ROW, i, 0);
             return X;
         }
 
         if (sumO == MAGIC_TOTAL) {
-            this->w = WinState(ROW, Point(i, 0));
+            this->w = WinState(COL, Point(i, 0));
             // this->drawLine(renderer, ROW, i, 0);
             return O;
         }
     }
 
-    // check cols
+    // check rows
     for (int j = 0; j < 3; j++) {
         sumX = 0;
         sumO = 0;
@@ -181,13 +185,13 @@ States Board::checkWin(SDL_Renderer *renderer) {
         }
 
         if (sumX == MAGIC_TOTAL) {
-            this->w = WinState(COL, Point(0, j));
+            this->w = WinState(ROW, Point(0, j));
             // this->drawLine(renderer, COL, 0, j);
             return X;
         }
 
         if (sumO == MAGIC_TOTAL) {
-            this->w = WinState(COL, Point(0, j));
+            this->w = WinState(ROW, Point(0, j));
             // this->drawLine(renderer, COL, 0, j);
             return O;
         }
