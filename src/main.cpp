@@ -88,28 +88,48 @@ int main() {
                 // b.print();
             }
         }
+
+        /*
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
         b.draw(renderer);
         SDL_RenderPresent(renderer);
+        */
+
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderClear(renderer);
 
         switch (b.checkWin(renderer)) {
             case X:
                 std::cout << "X Wins!" << std::endl;
-                b.reset();
+
+                b.draw(renderer);
+                SDL_RenderPresent(renderer);
+
                 SDL_Delay(2000);
+                b.reset();
                 break;
             case O:
                 std::cout << "O Wins!" << std::endl;
-                b.reset();
+
+                b.draw(renderer);
+                SDL_RenderPresent(renderer);
+
                 SDL_Delay(2000);
+                b.reset();
                 break;
             case TIE:
                 std::cout << "Tie!!!" << std::endl;
-                b.reset();
+
+                b.draw(renderer);
+                SDL_RenderPresent(renderer);
+
                 SDL_Delay(2000);
+                b.reset();
                 break;
             default:
+                b.draw(renderer);
+                SDL_RenderPresent(renderer);
                 break;
         }
     }

@@ -190,7 +190,7 @@ States Board::checkWin(SDL_Renderer *renderer) {
             this->w = WinState(COL, Point(0, j));
             // this->drawLine(renderer, COL, 0, j);
             return O;
-        }   
+        }
     }
 
     // check diagonal

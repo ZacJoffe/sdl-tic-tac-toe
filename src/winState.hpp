@@ -8,7 +8,6 @@ class WinState {
 private:
     Win w;
     Point p;
-
 public:
     WinState(Win w, Point p);
     WinState();
