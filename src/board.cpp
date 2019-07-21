@@ -158,13 +158,14 @@ States Board::checkWin(SDL_Renderer *renderer) {
         }
 
         if (sumX == MAGIC_TOTAL) {
-            this->w = WinState(COL, Point(i, 0));
+            this->w = WinState(COL, Point(i * SCREEN_WIDTH / 3.0, 0));
+            // this->w = WinState(COL, Point(i, 0));
             // this->drawLine(renderer, ROW, i, 0);
             return X;
         }
 
         if (sumO == MAGIC_TOTAL) {
-            this->w = WinState(COL, Point(i, 0));
+            this->w = WinState(COL, Point(i * SCREEN_WIDTH / 3.0, 0));
             // this->drawLine(renderer, ROW, i, 0);
             return O;
         }
@@ -185,13 +186,13 @@ States Board::checkWin(SDL_Renderer *renderer) {
         }
 
         if (sumX == MAGIC_TOTAL) {
-            this->w = WinState(ROW, Point(0, j));
+            this->w = WinState(ROW, Point(0, j * SCREEN_WIDTH / 3.0));
             // this->drawLine(renderer, COL, 0, j);
             return X;
         }
 
         if (sumO == MAGIC_TOTAL) {
-            this->w = WinState(ROW, Point(0, j));
+            this->w = WinState(ROW, Point(0, j * SCREEN_WIDTH / 3.0));
             // this->drawLine(renderer, COL, 0, j);
             return O;
         }
