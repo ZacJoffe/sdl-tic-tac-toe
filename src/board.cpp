@@ -20,7 +20,6 @@ void Board::drawCircle(SDL_Renderer *renderer, int i, int j) {
 }
 
 void Board::drawX(SDL_Renderer *renderer, int i, int j) {
-
     Point p1(i * SCREEN_WIDTH / 3, j * SCREEN_HEIGHT / 3);
     // int x1 = i * SCREEN_WIDTH / 3;
     // int y1 = j * SCREEN_HEIGHT / 3;
@@ -38,14 +37,18 @@ void Board::drawX(SDL_Renderer *renderer, int i, int j) {
 }
 
 void Board::drawLine(SDL_Renderer *renderer) {
+    if (this->w.getWin() != NONE) {
+        std::cout << this->w.getWin() << std::endl;
+    }
+
     switch (this->w.getWin()) {
-        case ROW:
+        case COL:
             SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
             SDL_RenderDrawLine(renderer, this->w.getPoint().getX() + SCREEN_WIDTH / 6.0, 0, this->w.getPoint().getX() + SCREEN_WIDTH / 6.0, SCREEN_HEIGHT);
             break;
-        case COL:
+        case ROW:
             SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-            SDL_RenderDrawLine(renderer, 0, this->w.getPoint().getY() + SCREEN_HEIGHT / 6.0, SCREEN_WIDTH, this->w.getPoint().getY() + SCREEN_HEIGHT / 6.0); 
+            SDL_RenderDrawLine(renderer, 0, this->w.getPoint().getY() + SCREEN_HEIGHT / 6.0, SCREEN_WIDTH, this->w.getPoint().getY() + SCREEN_HEIGHT / 6.0);
             break;
         case DIAG:
             SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
@@ -140,7 +143,7 @@ States Board::checkWin(SDL_Renderer *renderer) {
     int sumX;
     int sumO;
 
-    // check rows
+    // check cols
     for (int i = 0; i < 3; i++) {
         sumX = 0;
         sumO = 0;
@@ -155,19 +158,20 @@ States Board::checkWin(SDL_Renderer *renderer) {
         }
 
         if (sumX == MAGIC_TOTAL) {
-            this->w = WinState(ROW, Point(i, 0));
+            this->w = WinState(COL, Point(i * SCREEN_WIDTH / 3.0, 0));
+            // this->w = WinState(COL, Point(i, 0));
             // this->drawLine(renderer, ROW, i, 0);
             return X;
         }
 
         if (sumO == MAGIC_TOTAL) {
-            this->w = WinState(ROW, Point(i, 0));
+            this->w = WinState(COL, Point(i * SCREEN_WIDTH / 3.0, 0));
             // this->drawLine(renderer, ROW, i, 0);
             return O;
         }
     }
-    
-    // check cols
+
+    // check rows
     for (int j = 0; j < 3; j++) {
         sumX = 0;
         sumO = 0;
@@ -182,16 +186,16 @@ States Board::checkWin(SDL_Renderer *renderer) {
         }
 
         if (sumX == MAGIC_TOTAL) {
-            this->w = WinState(COL, Point(0, j));
+            this->w = WinState(ROW, Point(0, j * SCREEN_WIDTH / 3.0));
             // this->drawLine(renderer, COL, 0, j);
             return X;
         }
 
         if (sumO == MAGIC_TOTAL) {
-            this->w = WinState(COL, Point(0, j));
+            this->w = WinState(ROW, Point(0, j * SCREEN_WIDTH / 3.0));
             // this->drawLine(renderer, COL, 0, j);
             return O;
-        }   
+        }
     }
 
     // check diagonal
@@ -223,12 +227,12 @@ States Board::checkWin(SDL_Renderer *renderer) {
     sumX = 0;
     sumO = 0;
     for (int i = 2; i >= 0; i--) {
-        if (this->s[i][i] == X) {
-            sumX += magicSquare[i][i];
+        if (this->s[i][2 - i] == X) {
+            sumX += magicSquare[i][2 - i];
         }
 
-        if (this->s[i][i] == O) {
-            sumO += magicSquare[i][i];
+        if (this->s[i][2 - i] == O) {
+            sumO += magicSquare[i][2 - i];
         }
 
         if (sumX == MAGIC_TOTAL) {

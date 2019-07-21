@@ -5,7 +5,11 @@ WinState::WinState(Win w, Point p) {
     this->p = p;
 }
 
-WinState::WinState() {}
+WinState::WinState() {
+    this->w = NONE;
+    this->p = Point();
+}
+
 WinState::~WinState() {}
 
 Win WinState::getWin() {
