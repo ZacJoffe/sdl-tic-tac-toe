@@ -166,7 +166,7 @@ States Board::checkWin(SDL_Renderer *renderer) {
         }
     }
 
-    //  check cols
+    // check cols
     for (int j = 0; j < 3; j++) {
         sumX = 0;
         sumO = 0;
@@ -222,12 +222,12 @@ States Board::checkWin(SDL_Renderer *renderer) {
     sumX = 0;
     sumO = 0;
     for (int i = 2; i >= 0; i--) {
-        if (this->s[i][i] == X) {
-            sumX += magicSquare[i][i];
+        if (this->s[i][2 - i] == X) {
+            sumX += magicSquare[i][2 - i];
         }
 
-        if (this->s[i][i] == O) {
-            sumO += magicSquare[i][i];
+        if (this->s[i][2 - i] == O) {
+            sumO += magicSquare[i][2 - i];
         }
 
         if (sumX == MAGIC_TOTAL) {
