@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include "point.hpp"
 #include "winState.hpp"
 
@@ -30,6 +31,8 @@ public:
     ~Board();
 
     void draw(SDL_Renderer *renderer);
+    void drawGameOver(SDL_Renderer *renderer, TTF_Font *font, States winner);
+
     bool insert(int i, int j);
     void print();
     States checkWin(SDL_Renderer *renderer);

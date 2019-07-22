@@ -106,6 +106,42 @@ void Board::draw(SDL_Renderer *renderer) {
     this->drawLine(renderer);
 }
 
+void Board::drawGameOver(SDL_Renderer *renderer, TTF_Font *font, States winner) {
+    SDL_Color c = { 255, 255, 255, 255 };
+    SDL_Surface *surface = nullptr;
+    SDL_Texture *texture = nullptr;
+
+    // std::string gameOverText = "Game Over";
+    std::string gameOverText;
+
+    switch (winner) {
+        case X:
+            gameOverText = "X Wins!";
+            break;
+        case O:
+            gameOverText = "O Wins!";
+            break;
+        case TIE:
+            gameOverText = "Tie!";
+            break;
+        default:
+            return;
+    }
+
+    surface = TTF_RenderText_Solid(font, gameOverText.c_str(), c);
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+
+    int textureWidth = 0;
+    int textureHeight = 0;
+    SDL_QueryTexture(texture, NULL, NULL, &textureWidth, &textureHeight);
+    SDL_Rect dstrect = { SCREEN_WIDTH / 4 - textureWidth / 2, SCREEN_HEIGHT - textureHeight, textureWidth, textureHeight };
+
+    SDL_RenderCopy(renderer, texture, NULL, &dstrect);
+    SDL_DestroyTexture(texture);
+}
+
+
 // returns true if successful, false if there is a piece already placed in the index
 bool Board::insert(int i, int j) {
     if (this->s[i][j] != EMPTY) {

@@ -7,6 +7,7 @@
 
 SDL_Window *window = nullptr;
 SDL_Renderer *renderer = nullptr;
+TTF_Font *font = nullptr;
 
 // if any sdl call fails, returns false and logs error, otherwise return true for success
 bool init() {
@@ -27,12 +28,28 @@ bool init() {
         return false;
     }
 
+    if (TTF_Init() != 0) {
+        std::cout << "Font could not be created! SDL Error: " << SDL_GetError() << std::endl;
+        return false;
+    }
+
+    std::string fontName = "assets/Roboto-Black.ttf";
+
+    //  font = TTF_OpenFont(fontName.c_str(), 12);
+    font = TTF_OpenFont("assets/Roboto-Black.ttf", 24);
+    if (font == NULL) {
+        std::cout << "Font could not be loaded! SDL Error: " << SDL_GetError() << std::endl;
+    }
+
     return true;
 }
 
 void close() {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    TTF_CloseFont(font);
+    TTF_Quit();
+    SDL_Quit();
 }
 
 int main() {
@@ -104,6 +121,7 @@ int main() {
                 std::cout << "X Wins!" << std::endl;
 
                 b.draw(renderer);
+                b.drawGameOver(renderer, font, X);
                 SDL_RenderPresent(renderer);
 
                 SDL_Delay(2000);
@@ -113,6 +131,7 @@ int main() {
                 std::cout << "O Wins!" << std::endl;
 
                 b.draw(renderer);
+                b.drawGameOver(renderer, font, O);
                 SDL_RenderPresent(renderer);
 
                 SDL_Delay(2000);
@@ -122,6 +141,7 @@ int main() {
                 std::cout << "Tie!!!" << std::endl;
 
                 b.draw(renderer);
+                b.drawGameOver(renderer, font, TIE);
                 SDL_RenderPresent(renderer);
 
                 SDL_Delay(2000);
