@@ -35,8 +35,7 @@ bool init() {
 
     std::string fontName = "assets/Roboto-Black.ttf";
 
-    //  font = TTF_OpenFont(fontName.c_str(), 12);
-    font = TTF_OpenFont("assets/Roboto-Black.ttf", 24);
+    font = TTF_OpenFont("assets/Roboto-Black.ttf", 48);
     if (font == NULL) {
         std::cout << "Font could not be loaded! SDL Error: " << SDL_GetError() << std::endl;
     }

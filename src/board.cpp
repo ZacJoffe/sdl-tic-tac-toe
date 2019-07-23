@@ -135,7 +135,7 @@ void Board::drawGameOver(SDL_Renderer *renderer, TTF_Font *font, States winner) 
     int textureWidth = 0;
     int textureHeight = 0;
     SDL_QueryTexture(texture, NULL, NULL, &textureWidth, &textureHeight);
-    SDL_Rect dstrect = { SCREEN_WIDTH / 4 - textureWidth / 2, SCREEN_HEIGHT - textureHeight, textureWidth, textureHeight };
+    SDL_Rect dstrect = { SCREEN_WIDTH / 2 - textureWidth / 2, SCREEN_HEIGHT - textureHeight, textureWidth, textureHeight };
 
     SDL_RenderCopy(renderer, texture, NULL, &dstrect);
     SDL_DestroyTexture(texture);
