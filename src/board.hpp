@@ -35,6 +35,6 @@ public:
 
     bool insert(int i, int j);
     void print();
-    States checkWin(SDL_Renderer *renderer);
+    States checkWin();
     void reset();
 };

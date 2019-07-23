@@ -171,7 +171,7 @@ void Board::print() {
 }
 
 // returns: EMPTY if still going, X if x wins, O if o wins, and TIE if it's a tied game
-States Board::checkWin(SDL_Renderer *renderer) {
+States Board::checkWin() {
     if (this->moveCount == 9) {
         return TIE;
     }
