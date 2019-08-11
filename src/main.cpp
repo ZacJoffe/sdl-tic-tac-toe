@@ -4,6 +4,7 @@
 #include <cmath>
 
 #include "board.hpp"
+#include "gameState.hpp"
 
 SDL_Window *window = nullptr;
 SDL_Renderer *renderer = nullptr;
@@ -59,8 +60,110 @@ int main() {
     SDL_Event e;
     bool quit = false;
     Board b;
+    GameState state = TWO;
 
     while (!quit) {
+        switch (state) {
+            case MENU:
+                break;
+            case ONE:
+                break;
+            case TWO:
+                while (SDL_PollEvent(&e) != 0) {
+                    if (e.type == SDL_QUIT) {
+                        quit = true;
+                        break;
+                    }
+
+                    if (e.type == SDL_MOUSEBUTTONDOWN) {
+                        int xPos;
+                        int yPos;
+
+                        SDL_GetMouseState(&xPos, &yPos);
+                        // std::cout << xPos << " " << yPos << std::endl;
+
+                        int i;
+                        int j;
+
+                        if (xPos < SCREEN_WIDTH / 3) {
+                            i = 0;
+                        } else if (xPos < 2 * SCREEN_WIDTH / 3) {
+                            i = 1;
+                        } else {
+                            i = 2;
+                        }
+
+                        if (yPos < SCREEN_HEIGHT / 3) {
+                            j = 0;
+                        } else if (yPos < 2 * SCREEN_HEIGHT / 3) {
+                            j = 1;
+                        } else {
+                            j = 2;
+                        }
+
+
+                        std::cout << xPos << " " << yPos << std::endl;
+                        std::cout << i << " " << j << std::endl;
+
+                        if (!b.insert(i, j)) {
+                            std::cout << "Already taken!" << std::endl;
+                        }
+
+                        // b.print();
+                    }
+                }
+
+                /*
+                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+                SDL_RenderClear(renderer);
+                b.draw(renderer);
+                SDL_RenderPresent(renderer);
+                */
+
+                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+                SDL_RenderClear(renderer);
+
+                switch (b.checkWin()) {
+                    case X:
+                        std::cout << "X Wins!" << std::endl;
+
+                        b.draw(renderer);
+                        b.drawGameOver(renderer, font, X);
+                        SDL_RenderPresent(renderer);
+
+                        SDL_Delay(2000);
+                        b.reset();
+                        break;
+                    case O:
+                        std::cout << "O Wins!" << std::endl;
+
+                        b.draw(renderer);
+                        b.drawGameOver(renderer, font, O);
+                        SDL_RenderPresent(renderer);
+
+                        SDL_Delay(2000);
+                        b.reset();
+                        break;
+                    case TIE:
+                        std::cout << "Tie!!!" << std::endl;
+
+                        b.draw(renderer);
+                        b.drawGameOver(renderer, font, TIE);
+                        SDL_RenderPresent(renderer);
+
+                        SDL_Delay(2000);
+                        b.reset();
+                        break;
+                    default:
+                        b.draw(renderer);
+                        SDL_RenderPresent(renderer);
+                        break;
+                }
+
+                break;
+        }
+
+        /*
         while (SDL_PollEvent(&e) != 0) {
             if (e.type == SDL_QUIT) {
                 quit = true;
@@ -105,13 +208,6 @@ int main() {
             }
         }
 
-        /*
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderClear(renderer);
-        b.draw(renderer);
-        SDL_RenderPresent(renderer);
-        */
-
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
@@ -151,6 +247,7 @@ int main() {
                 SDL_RenderPresent(renderer);
                 break;
         }
+        */
     }
 
     return 0;
